@@ -1,0 +1,36 @@
+1. Prépare ton environnement Python
+Ouvre un terminal (CMD ou PowerShell) et exécute la commande suivante pour installer les outils nécessaires :
+
+Bash
+pip install streamlit joblib numpy
+
+2. Crée et configure ton fichier de jeu
+Ouvre ton éditeur de code (VS Code, PyCharm ou Notepad++).
+
+Crée un nouveau fichier nommé morpion_m1.py.
+
+Colle l'intégralité du code Streamlit (celui avec le mode hybride et l'alternance X/O).
+
+Modifie impérativement les lignes de chargement pour qu'elles pointent vers l'emplacement réel de tes fichiers sur ton disque :
+
+Python
+model_wins = joblib.load(r'TON_CHEMIN_ICI\ia_model_wins.pkl')
+model_draw = joblib.load(r'TON_CHEMIN_ICI\ia_model_draw.pkl')
+Enregistre le fichier.
+
+3. Lance le serveur de l'interface
+Place-toi avec ton terminal dans le dossier où se trouve ton fichier morpion_m1.py.
+
+Saisis et valide la commande de lancement :
+
+Bash
+streamlit run morpion_m1.py
+
+4. Interagis avec le jeu
+Attends que ton navigateur web s'ouvre automatiquement (généralement à l'adresse http://localhost:8501).
+
+Sélectionne le mode de jeu dans la barre latérale gauche (vs Human, IA ML ou IA Hybride).
+
+Clique sur les cases de la grille pour jouer.
+
+Observe les probabilités de l'IA en temps réel en dépliant la section d'analyse en bas de page.
