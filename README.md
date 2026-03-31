@@ -61,5 +61,5 @@
    L’IA utilise le modèle ML pour évaluer les positions et accélérer la recherche
    Le joueur hybride agit plus “humainement” en bloquant efficacement les lignes gagnantes adverses et en choisissant des positions favorables
 
-    lien vers la vidéo de présentation : 
+    lien vers la vidéo de présentation : https://drive.google.com/file/d/1lVBxPSaUEKqdyinfHK006CbC3v2MaXxu/view?usp=drivesdk
 
