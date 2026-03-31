@@ -30,6 +30,40 @@ print(f"% Match nul : {draw_ratio:.2f}")
 
 
 
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, f1_score, confusion_matrix
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Charger dataset
+df = pd.read_csv("dataset.csv")
+
+# Features
+X = df.drop(columns=["x_wins", "is_draw"])
+
+# Targets
+y_win = df["x_wins"]
+y_draw = df["is_draw"]
+X_train, X_test, y_win_train, y_win_test = train_test_split(X, y_win, test_size=0.2, random_state=42)
+
+_, _, y_draw_train, y_draw_test = train_test_split(X, y_draw, test_size=0.2, random_state=42)
+model_win = LogisticRegression(max_iter=1000)
+model_win.fit(X_train, y_win_train)
+
+y_pred_win = model_win.predict(X_test)
+print("=== MODELE X_WINS ===")
+print("Accuracy:", accuracy_score(y_win_test, y_pred_win))
+print("F1 Score:", f1_score(y_win_test, y_pred_win))
+
+cm = confusion_matrix(y_win_test, y_pred_win)
+
+sns.heatmap(cm, annot=True, fmt='d', cmap='Blues')
+plt.title("Confusion Matrix - X Wins")
+plt.show()
+
+
 
 
 model_draw = LogisticRegression(max_iter=1000)
