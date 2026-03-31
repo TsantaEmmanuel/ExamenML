@@ -4,50 +4,62 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, f1_score, confusion_matrix
 import seaborn as sns
 import matplotlib.pyplot as plt
+import numpy as np
 
 # Charger dataset
 df = pd.read_csv("dataset.csv")
 
-# Features
+# Features et targets
 X = df.drop(columns=["x_wins", "is_draw"])
-
-# Targets
 y_win = df["x_wins"]
 y_draw = df["is_draw"]
-X_train, X_test, y_win_train, y_win_test = train_test_split(X, y_win, test_size=0.2, random_state=42)
 
+# Split train/test
+X_train, X_test, y_win_train, y_win_test = train_test_split(X, y_win, test_size=0.2, random_state=42)
 _, _, y_draw_train, y_draw_test = train_test_split(X, y_draw, test_size=0.2, random_state=42)
+
+# -----------------------------
+# MODELE 1 : X_wins
+# -----------------------------
 model_win = LogisticRegression(max_iter=1000)
 model_win.fit(X_train, y_win_train)
 
 y_pred_win = model_win.predict(X_test)
+
 print("=== MODELE X_WINS ===")
 print("Accuracy:", accuracy_score(y_win_test, y_pred_win))
 print("F1 Score:", f1_score(y_win_test, y_pred_win))
 
 cm = confusion_matrix(y_win_test, y_pred_win)
-
 sns.heatmap(cm, annot=True, fmt='d', cmap='Blues')
 plt.title("Confusion Matrix - X Wins")
 plt.show()
+
+# -----------------------------
+# MODELE 2 : Draw
+# -----------------------------
 model_draw = LogisticRegression(max_iter=1000)
 model_draw.fit(X_train, y_draw_train)
 
 y_pred_draw = model_draw.predict(X_test)
+
 print("=== MODELE DRAW ===")
 print("Accuracy:", accuracy_score(y_draw_test, y_pred_draw))
 print("F1 Score:", f1_score(y_draw_test, y_pred_draw))
 
 cm = confusion_matrix(y_draw_test, y_pred_draw)
-
 sns.heatmap(cm, annot=True, fmt='d', cmap='Greens')
 plt.title("Confusion Matrix - Draw")
 plt.show()
-print("Comparaison:")
+
+# Comparaison des modèles
+print("Comparaison des F1-scores:")
 print("X_wins F1:", f1_score(y_win_test, y_pred_win))
 print("Draw F1:", f1_score(y_draw_test, y_pred_draw))
-import numpy as np
 
+# -----------------------------
+# Analyse des coefficients
+# -----------------------------
 def plot_coefficients(model, title):
     coefs = model.coef_[0]
     
@@ -66,5 +78,7 @@ def plot_coefficients(model, title):
     axes[1].set_title(f"{title} - O positions")
     
     plt.show()
-    plot_coefficients(model_win, "X Wins Model")
+
+# Appel des fonctions pour afficher les coefficients
+plot_coefficients(model_win, "X Wins Model")
 plot_coefficients(model_draw, "Draw Model")
